@@ -1,13 +1,10 @@
-package org.example;
+package org.example.business;
 
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.example.blueprint.FoodInfo;
-import org.example.business.Recycle;
-import org.example.business.RecycleInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -23,47 +20,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExcelToXml {
+public class Recycle {
 
-    //https://www.baeldung.com/java-convert-excel-data-into-list
-
-    public static final String FILE_LOCATION = "/Users/jim.wu/Downloads/food_info.xlsx";
-    public static final String XML_FILE_LOCATION = "/Users/jim.wu/Downloads/food_info.xml";
-
-    public static final String BUZ_FILE_LOCATION = "/Users/jim.wu/Downloads/buz_info.xlsx";
-    public static final String BUZ_XML_FILE_LOCATION = "/Users/jim.wu/Downloads/buz_info.xml";
-
-    public static void main(String[] args) throws IOException {
-
-//        List<FoodInfo> result = excelDataToListOfObjets(FILE_LOCATION);
-//        writeFoodInfoListToXml(result, XML_FILE_LOCATION);
-        List<RecycleInfo> result = Recycle.excelDataToListOfObjets(BUZ_FILE_LOCATION);
-        Recycle.writeInfoListToXml(result, BUZ_XML_FILE_LOCATION);
-    }
-
-    public static List<FoodInfo> excelDataToListOfObjets(String fileLocation)
+    public static List<RecycleInfo> excelDataToListOfObjets(String fileLocation)
             throws IOException {
         FileInputStream file = new FileInputStream(fileLocation);
         Workbook workbook = new XSSFWorkbook(file);
         Sheet sheet = workbook.getSheetAt(0);
-        List<FoodInfo> foodData = new ArrayList<>();
+        List<RecycleInfo> recycleInfoLs = new ArrayList<>();
         DataFormatter dataFormatter = new DataFormatter();
         for (int n = 1; n < sheet.getPhysicalNumberOfRows(); n++) {
             Row row = sheet.getRow(n);
-            FoodInfo foodInfo = new FoodInfo();
+            RecycleInfo recycleInfo = new RecycleInfo();
             int i = row.getFirstCellNum();
 
-            foodInfo.setCategory(dataFormatter.formatCellValue(row.getCell(i)));
-            foodInfo.setName(dataFormatter.formatCellValue(row.getCell(++i)));
-            foodInfo.setMeasure(dataFormatter.formatCellValue(row.getCell(++i)));
-            foodInfo.setCalories(row.getCell(++i).getNumericCellValue());
+            recycleInfo.setIsBuzEntity((int) row.getCell(i).getNumericCellValue());
+            recycleInfo.setRequestAddress(dataFormatter.formatCellValue(row.getCell(++i)));
+            recycleInfo.setCleanerCode(dataFormatter.formatCellValue(row.getCell(++i)));
+            recycleInfo.setStoreAddress(dataFormatter.formatCellValue(row.getCell(++i)));
 
-            foodData.add(foodInfo);
+            recycleInfoLs.add(recycleInfo);
         }
-        return foodData;
+        return recycleInfoLs;
     }
 
-    public static void writeFoodInfoListToXml(List<FoodInfo> foodInfoList, String xmlFilePath) {
+
+    public static void writeInfoListToXml(List<RecycleInfo> infoList, String xmlFilePath) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -73,32 +55,32 @@ public class ExcelToXml {
             Element rootElement = document.createElement("FoodInfoList");
             document.appendChild(rootElement);
 
-            for (FoodInfo foodInfo : foodInfoList) {
+            for (RecycleInfo info : infoList) {
                 // 每一 row 的 root,名稱自定義
-                Element foodElement = document.createElement("row");
+                Element foodElement = document.createElement("ReuMonReportN");
                 rootElement.appendChild(foodElement);
 
                 // Add category
-                Element categoryElement = document.createElement("Category");
-                Text categoryText = document.createTextNode(foodInfo.getCategory());
+                Element categoryElement = document.createElement("廢棄物來源是否為事業單位");
+                Text categoryText = document.createTextNode(String.valueOf(info.getIsBuzEntity()));
                 categoryElement.appendChild(categoryText);
                 foodElement.appendChild(categoryElement);
 
                 // Add name
-                Element nameElement = document.createElement("Name");
-                Text nameText = document.createTextNode(foodInfo.getName());
+                Element nameElement = document.createElement("委託單位地址");
+                Text nameText = document.createTextNode(info.getRequestAddress());
                 nameElement.appendChild(nameText);
                 foodElement.appendChild(nameElement);
 
                 // Add measure
-                Element measureElement = document.createElement("Measure");
-                Text measureText = document.createTextNode(foodInfo.getMeasure());
+                Element measureElement = document.createElement("清除者代碼");
+                Text measureText = document.createTextNode(info.getCleanerCode());
                 measureElement.appendChild(measureText);
                 foodElement.appendChild(measureElement);
 
                 // Add calories
-                Element caloriesElement = document.createElement("Calories");
-                Text caloriesText = document.createTextNode(String.valueOf(foodInfo.getCalories()));
+                Element caloriesElement = document.createElement("貯存地點");
+                Text caloriesText = document.createTextNode(info.getStoreAddress());
                 caloriesElement.appendChild(caloriesText);
                 foodElement.appendChild(caloriesElement);
             }
@@ -106,11 +88,13 @@ public class ExcelToXml {
             // Write to XML file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
+            //transformer.setOutputProperty(OutputKeys.ENCODING, "Big5"); // 指定编码
             DOMSource source = new DOMSource(document);
             StreamResult result = new StreamResult(xmlFilePath);
             transformer.transform(source, result);
 
-            System.out.println("FoodInfo data written to " + xmlFilePath);
+
+            System.out.println("Info data written to " + xmlFilePath);
         } catch (Exception e) {
             e.printStackTrace();
         }
