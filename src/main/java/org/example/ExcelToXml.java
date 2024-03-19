@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class ExcelToXml {
 
     //https://www.baeldung.com/java-convert-excel-data-into-list
 
-    private static final String FILE_LOCATION = "/Users/jim.wu/Downloads/222.xlsx";
-    private static final String XML_FILE_LOCATION = "/Users/jim.wu/Downloads/222.xml";
+    public static final String FILE_LOCATION = "/Users/jim.wu/Downloads/222.xlsx";
+    public static final String XML_FILE_LOCATION = "/Users/jim.wu/Downloads/222.xml";
 
     public static void main(String[] args) throws IOException {
 
