@@ -42,13 +42,12 @@ public class ExcelToExcel {
             Row headerRow = sheet.getRow(0);
             Map<String, Integer> columnHeaders = getColumnMapper(headerRow);
 
-            // 從第二行開始
             for (int i = 0; i < result.size(); i++) {
-                // 創建新的行
+                // 從第二行開始創建新的行
                 Row row = sheet.createRow(i+1);
                 final int count = i;
                 columnHeaders.forEach((k, v) -> {
-                    // 获取单元格，如果不存在则创建新的单元格
+                    // Excel只有row0 表頭，因此 cell 都要新增
                     Cell cell = row.createCell(v);
                     switch (k) {
                         case "再利用數量":
