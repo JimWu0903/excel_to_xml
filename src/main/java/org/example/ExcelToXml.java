@@ -32,8 +32,6 @@ public class ExcelToXml {
 
     public static void main(String[] args) throws IOException {
 
-//        List<FoodInfo> result = excelDataToListOfObjets(FILE_LOCATION);
-//        writeFoodInfoListToXml(result, XML_FILE_LOCATION);
         List<Map<String,String>> result = Recycle.excelDataToListOfObjets(BUZ_FILE_LOCATION);
         Recycle.writeDataToXml(result, BUZ_XML_FILE_LOCATION);
     }

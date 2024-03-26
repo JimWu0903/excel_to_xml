@@ -26,9 +26,14 @@ public class XmlToExcel {
     public static final String ELEMENT_NAME = "ReuMonReportN";
 
     public static void main(String[] args) {
+        NodeList nodeList = extractDataFromXml(XML_FILE_LOCATION);
+        writeDataToExcel(nodeList, EXCEL_OUTPUT);
+    }
+
+    static NodeList extractDataFromXml(String xmlFileLocation) {
         try {
             // 加載 XML 文件
-            File xmlFile = new File(XML_FILE_LOCATION);
+            File xmlFile = new File(xmlFileLocation);
             FileInputStream fis = new FileInputStream(xmlFile);
 
             // 創建 DocumentBuilder 和 Document 對象以解析 XML
@@ -41,22 +46,24 @@ public class XmlToExcel {
 
             if (nodeList.getLength() == 0) {
                 System.out.println("No data found in the XML file.");
-                return;
+                return null;
             }
 
-            // 提取資料Node下所有標箋名作為 Excel 的欄位名稱
-            List<String> columnHeaders = new ArrayList<>();
-            NodeList firstNode = nodeList.item(0).getChildNodes();
-            for (int i = 0; i < firstNode.getLength(); i++) {
-                if (firstNode.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                    String nodeName = firstNode.item(i).getNodeName();
-                    columnHeaders.add(nodeName);
-                }
-            }
+            return nodeList;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void writeDataToExcel(NodeList nodeList, String excelOutputLocation) {
+        try{
             // 創建 Excel 工作簿和工作表
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("Data");
+
+            List<String> columnHeaders = getColumnHeaders(nodeList);
 
             // // 寫入 Excel 表頭 (欄位名稱)
             Row headerRow = sheet.createRow(0);
@@ -93,6 +100,18 @@ public class XmlToExcel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<String> getColumnHeaders(NodeList nodeList) {
+        List<String> columnHeaders = new ArrayList<>();
+        NodeList firstNode = nodeList.item(0).getChildNodes();
+        for (int i = 0; i < firstNode.getLength(); i++) {
+            if (firstNode.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                String nodeName = firstNode.item(i).getNodeName();
+                columnHeaders.add(nodeName);
+            }
+        }
+        return columnHeaders;
     }
 
     /**
