@@ -26,8 +26,6 @@ public class Recycle {
             for (int i = 0; i < headerRow.getLastCellNum(); i++) {
                 Cell headerCell = headerRow.getCell(i);
                 Cell currentCell = currentRow.getCell(i);
-                System.out.print("headerCell = " + headerCell);
-                System.out.println("currentCell = " + currentCell);
                 rowData.put(headerCell.getStringCellValue(), currentCell.getStringCellValue());
             }
             data.add(rowData);
