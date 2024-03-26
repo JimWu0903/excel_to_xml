@@ -23,15 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.example.Constant.BUZ_FILE_LOCATION;
+import static org.example.Constant.BUZ_XML_FILE_LOCATION;
+
 public class ExcelToXml {
 
     //https://www.baeldung.com/java-convert-excel-data-into-list
-
-    public static final String FOOD_FILE_LOCATION = "/Users/jim.wu/mig-report/excel/food_info.xlsx";
-    public static final String FOOD_XML_FILE_LOCATION = "/Users/jim.wu/mig-report/xml/food_info.xml";
-
-    public static final String BUZ_FILE_LOCATION = "/Users/jim.wu/mig-report/excel/sample.xlsx";
-    public static final String BUZ_XML_FILE_LOCATION = "/Users/jim.wu/mig-report/xml/sample.xml";
 
     public static void main(String[] args) throws IOException {
 

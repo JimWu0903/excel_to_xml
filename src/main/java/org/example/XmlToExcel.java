@@ -18,10 +18,11 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.Constant.EXCEL_OUTPUT;
+import static org.example.Constant.XML_FILE_LOCATION;
+
 public class XmlToExcel {
 
-    public static final String EXCEL_OUTPUT = "/Users/jim.wu/mig-report/excel/sample.xlsx";
-    public static final String XML_FILE_LOCATION = "/Users/jim.wu/mig-report/xml/L00A051911302.xml";
     public static final String ELEMENT_NAME = "ReuMonReportN";
 
     public static void main(String[] args) {
