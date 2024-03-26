@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.example.blueprint.FoodInfo;
 import org.example.business.Recycle;
-import org.example.business.RecycleInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -22,23 +21,24 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ExcelToXml {
 
     //https://www.baeldung.com/java-convert-excel-data-into-list
 
-    public static final String FILE_LOCATION = "/Users/jim.wu/Downloads/food_info.xlsx";
-    public static final String XML_FILE_LOCATION = "/Users/jim.wu/Downloads/food_info.xml";
+    public static final String FOOD_FILE_LOCATION = "/Users/jim.wu/mig-report/excel/food_info.xlsx";
+    public static final String FOOD_XML_FILE_LOCATION = "/Users/jim.wu/mig-report/xml/food_info.xml";
 
-    public static final String BUZ_FILE_LOCATION = "/Users/jim.wu/Downloads/buz_info.xlsx";
-    public static final String BUZ_XML_FILE_LOCATION = "/Users/jim.wu/Downloads/buz_info.xml";
+    public static final String BUZ_FILE_LOCATION = "/Users/jim.wu/mig-report/excel/sample.xlsx";
+    public static final String BUZ_XML_FILE_LOCATION = "/Users/jim.wu/mig-report/xml/sample.xml";
 
     public static void main(String[] args) throws IOException {
 
 //        List<FoodInfo> result = excelDataToListOfObjets(FILE_LOCATION);
 //        writeFoodInfoListToXml(result, XML_FILE_LOCATION);
-        List<RecycleInfo> result = Recycle.excelDataToListOfObjets(BUZ_FILE_LOCATION);
-        Recycle.writeInfoListToXml(result, BUZ_XML_FILE_LOCATION);
+        List<Map<String,String>> result = Recycle.excelDataToListOfObjets(BUZ_FILE_LOCATION);
+        Recycle.writeDataToXml(result, BUZ_XML_FILE_LOCATION);
     }
 
     public static List<FoodInfo> excelDataToListOfObjets(String fileLocation)

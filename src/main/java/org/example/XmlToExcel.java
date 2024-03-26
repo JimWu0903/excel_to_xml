@@ -21,7 +21,7 @@ import java.util.List;
 public class XmlToExcel {
 
     public static final String EXCEL_OUTPUT = "/Users/jim.wu/mig-report/excel/sample.xlsx";
-    public static final String XML_FILE_LOCATION = "/Users/jim.wu/mig-report/xml/sample.xml";
+    public static final String XML_FILE_LOCATION = "/Users/jim.wu/mig-report/xml/L00A051911302.xml";
     public static final String ELEMENT_NAME = "ReuMonReportN";
 
     public static void main(String[] args) {
@@ -95,7 +95,7 @@ public class XmlToExcel {
     }
 
     /**
-     * Helper class to get the index of a column in the Excel sheet
+     * Helper class to get the index of a column header in a list of column headers.
      */
     static class ColumnIndex {
         private final List<String> columnHeaders;

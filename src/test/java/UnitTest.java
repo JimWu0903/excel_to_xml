@@ -11,9 +11,9 @@ public class UnitTest {
 
     @Test
     public void whenParsingExcelFileWithApachePOI_thenConvertsToList() throws IOException {
-        List<FoodInfo> foodInfoList = ExcelToXml.excelDataToListOfObjets(ExcelToXml.FILE_LOCATION);
+        List<FoodInfo> foodInfoList = ExcelToXml.excelDataToListOfObjets(ExcelToXml.FOOD_FILE_LOCATION);
 
-        assertEquals("row1-0", foodInfoList.get(0).getCategory());
+        assertEquals("1", foodInfoList.get(0).getCategory());
         assertEquals("row3-measure", foodInfoList.get(3).getMeasure());
     }
 }
